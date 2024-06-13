@@ -7,7 +7,7 @@ import 'package:project_1/firebase_options.dart';
 import 'package:project_1/screens/screen.dart';
 
 void main() async {
-  //WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -20,6 +20,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  int currentIndex = 0;
   List pages = const [
     HomeScreen(),
     ShortScreen(),
@@ -27,6 +28,12 @@ class _MyAppState extends State<MyApp> {
     SubScreen(),
     ProfileScreen(),
   ];
+
+  void onTap(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,17 +53,32 @@ class _MyAppState extends State<MyApp> {
             // neu co du lieu tra ve
             return Scaffold(
               bottomNavigationBar: BottomNavigationBar(
+                onTap: onTap,
+                unselectedFontSize: 0,
+                selectedFontSize: 0,
+                type: BottomNavigationBarType.fixed,
+                currentIndex: currentIndex,
                 selectedItemColor: Colors.black,
                 unselectedItemColor: Colors.black45,
+                showSelectedLabels: false,
+                showUnselectedLabels: false,
+                elevation: 10,
                 items: const [
-                  BottomNavigationBarItem(icon: Icon(Iconsax.home)),
-                  BottomNavigationBarItem(icon: Icon(Iconsax.video)),
-                  BottomNavigationBarItem(icon: Icon(Iconsax.add)),
-                  BottomNavigationBarItem(icon: Icon(Iconsax.video2)),
-                  BottomNavigationBarItem(icon: Icon(Iconsax.profile))
+                  BottomNavigationBarItem(
+                    icon: Icon(Iconsax.home),
+                    label: "Home",
+                  ),
+                  BottomNavigationBarItem(
+                      icon: Icon(Iconsax.video), label: "Short"),
+                  BottomNavigationBarItem(
+                      icon: Icon(Iconsax.add), label: "Upload"),
+                  BottomNavigationBarItem(
+                      icon: Icon(Iconsax.subtitle), label: "Kenh"),
+                  BottomNavigationBarItem(
+                      icon: Icon(Iconsax.user), label: "Profile")
                 ],
               ),
-              body: pages[0],
+              body: pages[currentIndex],
             );
           },
         ));
