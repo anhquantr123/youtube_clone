@@ -2,20 +2,32 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:project_1/firebase_options.dart';
 import 'package:project_1/screens/screen.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  // khoi tao flutter trong du an
+  //WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const ProviderScope(child: MyApp())); // khai bao nha  cung cap
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  List pages = const [
+    HomeScreen(),
+    ShortScreen(),
+    VideoUpLoadingScreen(),
+    SubScreen(),
+    ProfileScreen(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,13 +40,23 @@ class MyApp extends StatelessWidget {
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
-            // neu khong co du lieu tra ve
             if (!snapshot.hasData) {
               const LoginScreen();
             }
             // neu co du lieu tra ve
-            return Container(
-              child: Text(" Ban Da dang nhap "),
+            return Scaffold(
+              bottomNavigationBar: BottomNavigationBar(
+                selectedItemColor: Colors.black,
+                unselectedItemColor: Colors.black45,
+                items: const [
+                  BottomNavigationBarItem(icon: Icon(Iconsax.home)),
+                  BottomNavigationBarItem(icon: Icon(Iconsax.video)),
+                  BottomNavigationBarItem(icon: Icon(Iconsax.add)),
+                  BottomNavigationBarItem(icon: Icon(Iconsax.video2)),
+                  BottomNavigationBarItem(icon: Icon(Iconsax.profile))
+                ],
+              ),
+              body: pages[0],
             );
           },
         ));
