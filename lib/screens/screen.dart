@@ -4,3 +4,4 @@ export 'profile_screen.dart';
 export 'video_upload_screen.dart';
 export 'short_screen.dart';
 export 'sub_screen.dart';
+export 'setting_profile.dart';

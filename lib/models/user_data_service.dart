@@ -17,15 +17,15 @@ class UserDataService {
       {required this.firebaseAuth, required this.firebaseFirestore});
 
   addUser({
-    required String userId,
+    String? userId,
     required String name,
     required String userName,
     required String email,
     required String profilePic,
-    required String subscriptions,
-    required String videos,
+    String? subscriptions,
+    String? videos,
     required String descriptions,
-    required String type,
+    String? type,
   }) async {
     UserData user = UserData(
         userId: firebaseAuth.currentUser!.uid,
